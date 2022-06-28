@@ -1,0 +1,53 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index c61a1b6..9bd2257 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -63,7 +63,7 @@ set(MUJOCO_HEADERS
+     include/mujoco/mujoco.h
+ )
+ 
+-add_library(mujoco SHARED)
++add_library(mujoco STATIC)
+ target_include_directories(
+   mujoco
+   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+@@ -168,25 +168,25 @@ endif()
+ 
+ if(NOT (APPLE AND MUJOCO_BUILD_MACOS_FRAMEWORKS))
+   # Install the libraries.
+-  install(
+-    TARGETS mujoco
+-    EXPORT ${PROJECT_NAME}
+-    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT runtime
+-    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT runtime
+-    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT dev
+-    PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/mujoco" COMPONENT dev
+-  )
++  #install(
++  #  TARGETS mujoco
++  #  EXPORT ${PROJECT_NAME}
++  #  RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT runtime
++  #  LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT runtime
++  #  ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT dev
++  #  PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/mujoco" COMPONENT dev
++  #)
+ 
+   set(CONFIG_PACKAGE_LOCATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
+ 
+   # Generate and install the mujocoTargets.cmake file. This defines the targets as
+   # IMPORTED libraries for downstream users.
+-  install(
+-    EXPORT ${PROJECT_NAME}
+-    DESTINATION ${CONFIG_PACKAGE_LOCATION}
+-    NAMESPACE mujoco::
+-    FILE "${PROJECT_NAME}Targets.cmake"
+-  )
++  #install(
++  #  EXPORT ${PROJECT_NAME}
++  #  DESTINATION ${CONFIG_PACKAGE_LOCATION}
++  #  NAMESPACE mujoco::
++  #  FILE "${PROJECT_NAME}Targets.cmake"
++  #)
+ 
+   include(CMakePackageConfigHelpers)
+ 
