@@ -11,11 +11,13 @@ MUJOCO_LIBRARY_FILES := libccd.a liblodepng.a libmujoco.a libqhullstatic_r.a lib
 MUJOCO_LIBRARIES := $(addprefix $(MUJOCO_LIB_DIR)/,$(MUJOCO_LIBRARY_FILES))
 
 # Output configuration
-HEADERS = $(addprefix include/mujoco/,mjdata.h mjexport.h mjmodel.h mjrender.h mjtnum.h mjui.h mjvisualize.h mjxmacro.h mujoco.h)
+MUJOCO_DIR = mujoco
+MUJOCO_SRC_DIR = $(MUJOCO_DIR)/src
+HEADERS = $(addprefix $(MUJOCO_DIR)/include/mujoco/,mjdata.h mjexport.h mjmodel.h mjrender.h mjtnum.h mjui.h mjvisualize.h mjxmacro.h mujoco.h)
 LIBRARIES = $(addprefix libpath/,$(MUJOCO_LIBRARIES))
 
 .PHONY: build
-build: $(HEADERS) $(LIBRARIES)
+build: $(HEADERS) $(MUJOCO_SRC_DIR) $(LIBRARIES)
 
 # Download the mujoco source code
 $(MUJOCO_SRC):
@@ -32,7 +34,13 @@ $(MUJOCO_LIBRARIES): $(MUJOCO_SRC)
 
 $(HEADERS): $(MUJOCO_SRC)
 	@echo "Copying mujoco headers..."
-	cp -r $(MUJOCO_HEADERS_DIR) ./include
+	mkdir -p $(MUJOCO_DIR)
+	cp -r $(MUJOCO_HEADERS_DIR) $(MUJOCO_DIR)/include
+
+$(MUJOCO_SRC_DIR): $(MUJOCO_SRC)
+	@echo "Copying mujoco source files..."
+	mkdir -p $(MUJOCO_DIR)
+	cp -r $(MUJOCO_SRC)/src $(MUJOCO_DIR)
 
 $(LIBRARIES): $(MUJOCO_LIBRARIES)
 	@echo "Copying mujoco libraries..."
